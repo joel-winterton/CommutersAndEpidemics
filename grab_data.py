@@ -15,42 +15,42 @@ mock_commuter_flow = np.array([
 mock_non_commuter_counts = np.array([25, 10, 40])
 
 
-def get_matrix(dataset='LAD11'):
+def get_matrix(dataset='CENSUS_LAD11'):
     """"
     Returns commuter matrix as numpy ndarray. Has 2011 LAD census and mock data.
     Read more about 2011 data: `2011_census_data/README.md`
     """
-    if dataset == 'LAD11':
+    if dataset == 'CENSUS_LAD11':
         return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/od_matrix.csv'), delimiter=',')
-    if dataset == 'BBC_LAD':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/bbc_compatible/clean/od_matrix.csv'), delimiter=',')
+    if dataset == 'CENSUS_GLOBAL':
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/global_geography/clean/od_matrix.csv'), delimiter=',')
 
     if dataset == 'MOCK':
         return mock_commuter_flow
 
 
-def get_population_sizes(dataset='LAD11'):
+def get_population_sizes(dataset='CENSUS_LAD11'):
     """"
     Returns population size numpy array. Has 2011 LAD census and mock data.
     Read more about 2011 data: `2011_census_data/README.md`
     """
-    if dataset == 'LAD11':
+    if dataset == 'CENSUS_LAD11':
         return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/population_counts.csv'), delimiter=',')
-    if dataset == 'BBC_LAD':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/bbc_compatible/population_counts.csv'), delimiter=',')
+    if dataset == 'CENSUS_GLOBAL':
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/population_counts.csv'), delimiter=',')
 
     if dataset == 'MOCK':
         return mock_commuter_flow.sum(axis=1) + mock_non_commuter_counts
 
 
-def get_population_ordering(dataset='LAD11'):
+def get_population_ordering(dataset='CENSUS_LAD11'):
     """
     Returns an ordered list of patch labels, all data inside a dataset is sorted according to this list.
     :param dataset:
     :return:
     """
-    if dataset == 'LAD11':
+    if dataset == 'CENSUS_LAD11':
         return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/lad_codes.csv'), delimiter=',', dtype=str)
-    if dataset == 'BBC_LAD':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/bbc_compatible/lad_codes.csv'), delimiter=',', dtype=str)
+    if dataset == 'CENSUS_GLOBAL':
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/lad_codes.csv'), delimiter=',', dtype=str)
 
