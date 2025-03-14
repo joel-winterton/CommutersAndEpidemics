@@ -19,7 +19,7 @@ def get_matrix(dataset='LAD11'):
     Read more about 2011 data: `2011_census_data/README.md`
     """
     if dataset == 'LAD11':
-        data = pd.read_csv('2011_census_data/WF02EW LAD2011.csv', index_col=0, skiprows=9)
+        data = pd.read_csv('2011_census_data/clean/od_matrix/WF02EW LAD2011.csv', index_col=0, skiprows=9)
         data.drop(data.index[range(346, len(data.index))], inplace=True)
         return data.values.astype(float)
     if dataset == 'MOCK':
