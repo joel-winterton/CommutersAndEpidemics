@@ -19,9 +19,8 @@ def get_matrix(dataset='LAD11'):
     Read more about 2011 data: `2011_census_data/README.md`
     """
     if dataset == 'LAD11':
-        data = pd.read_csv('2011_census_data/clean/od_matrix/WF02EW LAD2011.csv', index_col=0, skiprows=9)
-        data.drop(data.index[range(346, len(data.index))], inplace=True)
-        return data.values.astype(float)
+        return np.genfromtxt('datasets/2011_census/clean/od_matrix.csv', delimiter=',')
+
     if dataset == 'MOCK':
         return mock_commuter_flow
 
@@ -32,9 +31,16 @@ def get_population_sizes(dataset='LAD11'):
     Read more about 2011 data: `2011_census_data/README.md`
     """
     if dataset == 'LAD11':
-        data = pd.read_csv('2011_census_data/QS102EW LAD2011.csv', index_col=0, skiprows=8)
-        data.drop(data.index[range(346, len(data.index))], inplace=True)
-        # drop footer text
-        return data.values.flatten().astype(float)
+        return np.genfromtxt('datasets/2011_census/clean/population_counts.csv', delimiter=',')
     if dataset == 'MOCK':
         return mock_commuter_flow.sum(axis=1) + mock_non_commuter_counts
+
+
+def get_population_ordering(dataset='LAD11'):
+    """
+    Returns an ordered list of patch labels, all data inside a dataset is sorted according to this list.
+    :param dataset:
+    :return:
+    """
+    if dataset == 'LAD11':
+        return np.genfromtxt('datasets/2011_census/clean/lad_codes.csv', delimiter=',')
