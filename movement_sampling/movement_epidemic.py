@@ -9,7 +9,6 @@ class MovementEpidemic:
         self.population_sizes = population_sizes
         self.movement_sampler = sampler(od_matrix, population_sizes)
         self.od_matrix = od_matrix
-        np.fill_diagonal(self.od_matrix, 0)
         self.number_of_patches = od_matrix.shape[0]
         self.t_max = t_max
         self.beta = beta
@@ -33,15 +32,17 @@ class MovementEpidemic:
         self.s[patch_index][0, individual] = 0
         self.i[patch_index][0, individual] = 1
 
-    def foi_fn(self, t, infections) -> np.ndarray:
+    def foi_fn(self, t, state) -> np.ndarray:
         """
         Return vector of FOIs at time t, e.g. to be applied at timestep after t.
-        :param infections:
+        :param state:
         :param t:
         :return:
         """
-        between = (1 - self.psi) * np.dot(self.od_matrix.T, infections / self.population_sizes)
-        within = self.psi * infections
+        (susceptibles, infecteds), (s_indices, i_indices), exerted_foi = state
+
+        between = (1 - self.psi) * exerted_foi
+        within = self.psi * infecteds
         return self.beta / self.population_sizes * (between + within)
 
     def update_states(self, infections, recoveries, s_indices, i_indices, t):
@@ -76,12 +77,18 @@ class MovementEpidemic:
         susceptibles = np.zeros(shape=self.number_of_patches, dtype=int)
         infecteds = np.zeros(shape=self.number_of_patches, dtype=int)
         s_indices, i_indices = [], []
+        external_foi = np.zeros(shape=(self.number_of_patches, self.number_of_patches), dtype=float)
         for k in range(self.number_of_patches):
             infecteds[k] = self.i[k][t, :].sum()
             susceptibles[k] = self.s[k][t, :].sum()
             s_indices.append(np.argwhere(self.s[k][t, :] == 1).flatten())
             i_indices.append(np.argwhere(self.i[k][t, :] == 1).flatten())
-        return susceptibles, infecteds, s_indices, i_indices
+            infection_state = self.i[k][t, :]
+            movement = self.movement_sampler.sample(k)
+            external_foi[k, :] = np.dot(movement, infection_state)
+
+        exerted_foi = external_foi.sum(axis=0) - external_foi.diagonal()
+        return (susceptibles, infecteds), (s_indices, i_indices), exerted_foi
 
     def step(self, t):
         """
@@ -89,8 +96,10 @@ class MovementEpidemic:
         """
         if t >= self.t_max:
             return False
-        susceptibles, infecteds, s_indices, i_indices = self.get_current_state(t)
-        probabilities = 1 - np.exp(-self.foi_fn(t, infecteds))
+        state = self.get_current_state(t)
+        (susceptibles, infecteds), (s_indices, i_indices), exerted_foi = state
+        foi = self.foi_fn(t, state)
+        probabilities = 1 - np.exp(-foi)
         infection_deltas = rng.binomial(susceptibles, probabilities)
         recovery_deltas = rng.binomial(infecteds, 1 - np.exp(-self.gamma))
         self.update_states(infection_deltas, recovery_deltas, s_indices, i_indices, t)

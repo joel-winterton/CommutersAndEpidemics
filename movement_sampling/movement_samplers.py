@@ -15,6 +15,7 @@ class Sampler:
         np.fill_diagonal(od_matrix, non_commuters)
         self.od_matrix = od_matrix
         self.number_of_patches = population_sizes.size
+        self.population_sizes = population_sizes
 
     def sample(self, i):
         """
