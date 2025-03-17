@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 """
 Code for basic epidemic using standard meta-population SIR model and likelihood inference.
 """
-
+rng = np.random.default_rng(seed=100)
 def simulate(beta, gamma, psi, flow_matrix, population_sizes, seed_patch, t_max=100, t_delta=1):
     # state and initial conditions
     n = len(population_sizes)
@@ -20,7 +20,6 @@ def simulate(beta, gamma, psi, flow_matrix, population_sizes, seed_patch, t_max=
     i[0, seed_patch] += 1
     # simulation
     foi = make_foi_fn(flow_matrix, population_sizes)
-    rng = np.random.default_rng()
     for t in range(time_size - 1):
         delta_infections = rng.binomial(s[t, :], 1 - np.exp(-t_delta * foi(i[t, :], beta, psi)))
         delta_recoveries = rng.binomial(i[t, :], 1 - np.exp(-t_delta * gamma))

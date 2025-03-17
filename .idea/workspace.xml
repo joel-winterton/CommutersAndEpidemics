@@ -4,47 +4,74 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbe5b0be-0b0e-4ffe-93e4-fe52766da803" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/Commuters.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datasets/2011_census/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datasets/2021_census/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/datasets/README.md" afterDir="false" />
+    <list default="true" id="dbe5b0be-0b0e-4ffe-93e4-fe52766da803" name="Changes" comment="feat: adventurers">
+      <change afterPath="$PROJECT_DIR$/datasets/subsamples_2011_census/data_cleaning.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movement_sampling/epidemic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movement_sampling/movement_epidemic.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/movement_sampling/movement_samplers_analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/basic_epidemic.py" beforeDir="false" afterPath="$PROJECT_DIR$/basic_epidemic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/basic_epidemic_analysis.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/basic_epidemic_analysis.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/grab_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/grab_data.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 6
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;joel-winterton&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:joel-winterton/CommutersAndEpidemics.git&quot;,
+    &quot;accountId&quot;: &quot;efeda6de-d357-4e16-89d5-c504c0f448e6&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
   <component name="ProjectId" id="2uJ2V0MzCRXG3m4igRrKNOPkM8s" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/joel/PycharmProjects/Commuters&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/datasets/2011_census" />
+      <recent name="$PROJECT_DIR$/datasets/2021_census" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -61,11 +88,134 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1741952375095</updated>
-      <workItem from="1741952376127" duration="568000" />
+      <workItem from="1741952376127" duration="1594000" />
+      <workItem from="1741954844236" duration="11610000" />
+      <workItem from="1742037377214" duration="20172000" />
+      <workItem from="1742204197356" duration="1179000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: setup">
+      <option name="closed" value="true" />
+      <created>1741953075837</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741953075837</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: repo stuff">
+      <option name="closed" value="true" />
+      <created>1741954930145</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741954930145</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix: aligned ONS data indices">
+      <option name="closed" value="true" />
+      <created>1741970503486</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1741970503486</updated>
+    </task>
+    <task id="LOCAL-00004" summary="fix: aligned ONS data indices">
+      <option name="closed" value="true" />
+      <created>1741970730333</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741970730333</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat: bbc compatible data">
+      <option name="closed" value="true" />
+      <created>1741974050452</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741974050452</updated>
+    </task>
+    <task id="LOCAL-00006" summary="feat: created global geography">
+      <option name="closed" value="true" />
+      <created>1741974684613</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741974684613</updated>
+    </task>
+    <task id="LOCAL-00007" summary="feat: added bbc mobility dataset">
+      <option name="closed" value="true" />
+      <created>1741974698990</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741974698990</updated>
+    </task>
+    <task id="LOCAL-00008" summary="fix: gitignore">
+      <option name="closed" value="true" />
+      <created>1741974712630</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741974712630</updated>
+    </task>
+    <task id="LOCAL-00009" summary="feat: density dependence">
+      <option name="closed" value="true" />
+      <created>1742052454183</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1742052454183</updated>
+    </task>
+    <task id="LOCAL-00010" summary="feat: basic meta-population epidemic">
+      <option name="closed" value="true" />
+      <created>1742053207228</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1742053207228</updated>
+    </task>
+    <task id="LOCAL-00011" summary="feat: movement sampler">
+      <option name="closed" value="true" />
+      <created>1742053214684</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1742053214684</updated>
+    </task>
+    <task id="LOCAL-00012" summary="feat: spatial animation">
+      <option name="closed" value="true" />
+      <created>1742053223540</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1742053223540</updated>
+    </task>
+    <task id="LOCAL-00013" summary="feat: adventurers">
+      <option name="closed" value="true" />
+      <created>1742053229963</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1742053229963</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: setup" />
+    <MESSAGE value="feat: repo stuff" />
+    <MESSAGE value="fix: aligned ONS data indices" />
+    <MESSAGE value="feat: bbc compatible data" />
+    <MESSAGE value="feat: created global geography" />
+    <MESSAGE value="feat: added bbc mobility dataset" />
+    <MESSAGE value="fix: gitignore" />
+    <MESSAGE value="feat: density dependence" />
+    <MESSAGE value="feat: basic meta-population epidemic" />
+    <MESSAGE value="feat: movement sampler" />
+    <MESSAGE value="feat: spatial animation" />
+    <MESSAGE value="feat: adventurers" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: adventurers" />
   </component>
 </project>

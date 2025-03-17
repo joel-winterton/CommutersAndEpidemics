@@ -20,13 +20,16 @@ def get_matrix(dataset='CENSUS_LAD11'):
     Returns commuter matrix as numpy ndarray. Has 2011 LAD census and mock data.
     Read more about 2011 data: `2011_census_data/README.md`
     """
+    res = mock_commuter_flow
     if dataset == 'CENSUS_LAD11':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/od_matrix.csv'), delimiter=',')
+        res = np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/od_matrix.csv'), delimiter=',')
     if dataset == 'CENSUS_GLOBAL':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/global_geography/clean/od_matrix.csv'), delimiter=',')
-
-    if dataset == 'MOCK':
-        return mock_commuter_flow
+        res = np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/od_matrix.csv'),
+                            delimiter=',')
+    if dataset == 'CENSUS_SUBSAMPLED':
+        res = np.genfromtxt(os.path.join(BASE_DIR, 'datasets/subsamples_2011_census/global_geography/od_matrix.csv'),
+                            delimiter=',')
+    return res.astype(int)
 
 
 def get_population_sizes(dataset='CENSUS_LAD11'):
@@ -34,13 +37,18 @@ def get_population_sizes(dataset='CENSUS_LAD11'):
     Returns population size numpy array. Has 2011 LAD census and mock data.
     Read more about 2011 data: `2011_census_data/README.md`
     """
+    pop_sizes = mock_commuter_flow.sum(axis=1) + mock_non_commuter_counts
     if dataset == 'CENSUS_LAD11':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/population_counts.csv'), delimiter=',')
+        pop_sizes = np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/population_counts.csv'),
+                                  delimiter=',')
     if dataset == 'CENSUS_GLOBAL':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/population_counts.csv'), delimiter=',')
-
-    if dataset == 'MOCK':
-        return mock_commuter_flow.sum(axis=1) + mock_non_commuter_counts
+        pop_sizes = np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/population_counts.csv'),
+                                  delimiter=',')
+    if dataset == 'CENSUS_SUBSAMPLED':
+        pop_sizes = np.genfromtxt(
+            os.path.join(BASE_DIR, 'datasets/subsamples_2011_census/global_geography/population_sizes.csv'),
+            delimiter=',')
+    return pop_sizes.astype(int)
 
 
 def get_population_ordering(dataset='CENSUS_LAD11'):
@@ -50,7 +58,11 @@ def get_population_ordering(dataset='CENSUS_LAD11'):
     :return:
     """
     if dataset == 'CENSUS_LAD11':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/lad_codes.csv'), delimiter=',', dtype=str)
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/clean/lad_codes.csv'), delimiter=',',
+                             dtype=str)
     if dataset == 'CENSUS_GLOBAL':
-        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/lad_codes.csv'), delimiter=',', dtype=str)
-
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/2011_census/global_geography/lad_codes.csv'),
+                             delimiter=',', dtype=str)
+    if dataset == 'CENSUS_SUBSAMPLED':
+        return np.genfromtxt(os.path.join(BASE_DIR, 'datasets/subsamples_2011_census/global_geography/lad_codes.csv'),
+                             delimiter=',', dtype=str)
