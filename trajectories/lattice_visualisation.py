@@ -8,14 +8,15 @@ import matplotlib.colors as colors
 import matplotlib.cm as cm
 from matplotlib.patches import RegularPolygon
 import numpy as np
-from mEPR import Person
+from gravity_epr import Individual
+from trajectories.lattice_model import Coordinate, Offset
 
 """
 Design variables
 """
 COLORMAP = 'RdYlGn'
-FIGURE_SIZE = (15, 15)
-DPI = 300
+FIGURE_SIZE = (6, 6)
+DPI = 120
 
 
 def plot_lattice(lattice, size=1, colormap=COLORMAP, max_threshold=200, title=None):
@@ -64,14 +65,18 @@ def plot_lattice(lattice, size=1, colormap=COLORMAP, max_threshold=200, title=No
     plt.show()
 
 
-def plot_trajectories(members: List[Person], colormap=COLORMAP):
+def plot_trajectories(members: List[Individual], colormap=COLORMAP):
     """
     Plots trajectories from a list of members.
     :param members:
     :param colormap:
     :return:
     """
+    # calculate cartesian limits:
+    width, height = Coordinate(Offset(members[0].lattice.r, members[0].lattice.c)).cartesian()
     fig, ax = plt.subplots(1, figsize=FIGURE_SIZE, dpi=DPI)
+    ax.set_xlim(-1, width+1)
+    ax.set_ylim(-1, height+1)
     max_marker_size = 50
     cmap = plt.get_cmap(colormap, len(members))
     for m, member in enumerate(members):
@@ -94,7 +99,7 @@ def plot_trajectories(members: List[Person], colormap=COLORMAP):
     plt.show()
 
 
-def plot_person_distribution(person: Person, distribution_name, max_val=250, colormap=COLORMAP):
+def plot_person_distribution(person: Individual, distribution_name, max_val=250, colormap=COLORMAP):
     """
     Plots a distribution that is a property of an individual.
     :param max_val:

@@ -82,9 +82,11 @@ class Lattice:
         self.r = width
         self.c = width
         self.grid = np.zeros((self.r, self.c))
-
-        self.distance_matrix = self.calculate_distance_matrix()
+        print("Assigning populus")
         self.population = np.random.normal(loc=population_avg, scale=10, size=self.grid.shape).astype(int)
+        print("Calculating distance matrix")
+        self.distance_matrix = self.calculate_distance_matrix()
+        print("Calculating exploration probabilities")
         self.exploration_probabilities = self.gravity_law()
 
     def validate_coord(self, coords: Coordinate):
