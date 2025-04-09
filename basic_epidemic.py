@@ -2,11 +2,14 @@ import numpy as np
 from copy import deepcopy
 import scipy.optimize as optimize
 import matplotlib.pyplot as plt
+from scipy.linalg import eigh
 
 """
 Code for basic epidemic using standard meta-population SIR model and likelihood inference.
 """
 rng = np.random.default_rng(seed=100)
+
+
 def simulate(beta, gamma, psi, flow_matrix, population_sizes, seed_patch, t_max=100, t_delta=1):
     # state and initial conditions
     n = len(population_sizes)
@@ -31,9 +34,6 @@ def simulate(beta, gamma, psi, flow_matrix, population_sizes, seed_patch, t_max=
 
 
 def make_foi_fn(flow_matrix, population_sizes, bulk=False):
-    # so we can sum over entire matrix without having to account for j=i.
-    np.fill_diagonal(flow_matrix, 0)
-
     def foi_fn(infections, beta, psi):
         between = (1 - psi) * np.dot(flow_matrix.T, infections / population_sizes)
         within = psi * infections
@@ -112,10 +112,8 @@ def visualise_fits(true_vals, estimated_vals, title=None):
     if title:
         fig.suptitle(title)
     param_names = [r'$\beta$', r'$\gamma$', r'$\psi$']
-    norm = plt.Normalize(true_vals[:, 0].min(), true_vals[:, 0].max())
-    cmap = plt.get_cmap('rainbow')
     for index, param in enumerate(param_names):
-        ax[index].scatter(true_vals[:, index], estimated_vals[:, index], s=4)
+        ax[index].scatter(true_vals[:, index], estimated_vals[:, index], s=4, c='r')
         ax[index].plot(true_vals[:, index], true_vals[:, index], c='g', alpha=0.2)
         ax[index].set_xlabel(f'True {param}')
         ax[index].set_ylabel(f'Estimated {param}')
