@@ -2,7 +2,7 @@
 This exposes a function that will give a numpy commuter matrix to avoid doing this many times in each analysis.
 """
 import csv
-
+from copy import deepcopy
 import numpy as np
 import os
 
@@ -17,10 +17,11 @@ mock_commuter_flow = np.array([
 mock_non_commuter_counts = np.array([25, 10, 40])
 
 
-def get_matrix(dataset='CENSUS_LAD11'):
+def get_matrix(dataset='CENSUS_LAD11', full=False):
     """"
     Returns commuter matrix as numpy ndarray. Has 2011 LAD census and mock data.
     Read more about 2011 data: `2011_census_data/README.md`
+    full parameter decides whether diagonal contains home stayers or original data.
     """
     sources = {'CENSUS_LAD11': 'datasets/2011_census/clean/od_matrix.csv',
                'CENSUS_GLOBAL': 'datasets/2011_census/global_geography/od_matrix.csv',
@@ -28,9 +29,19 @@ def get_matrix(dataset='CENSUS_LAD11'):
                'BBC_FURTHEST_GLOBAL': 'datasets/bbc_pandemic/global_geography/furthest/od_matrix.csv',
                'BBC_NEXT_GLOBAL': 'datasets/bbc_pandemic/global_geography/next/od_matrix.csv'}
     if dataset in sources:
-        return np.genfromtxt(os.path.join(BASE_DIR, str(sources[dataset])), delimiter=',').astype(int)
-    print('Dataset not found, using mock data.')
-    return mock_commuter_flow
+        matrix = np.genfromtxt(os.path.join(BASE_DIR, str(sources[dataset])), delimiter=',').astype(int)
+    else:
+        print('Dataset not found, using mock data.')
+        matrix = mock_commuter_flow
+    if not full:
+        return matrix
+
+    pop_sizes = get_population_sizes(dataset)
+    np.fill_diagonal(matrix, 0)
+    commuters = matrix.sum(axis=1)
+    non_commuters = pop_sizes - commuters
+    np.fill_diagonal(matrix, non_commuters)
+    return matrix
 
 
 def get_population_sizes(dataset='CENSUS_LAD11'):

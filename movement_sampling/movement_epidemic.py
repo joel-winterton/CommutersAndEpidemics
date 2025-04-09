@@ -10,6 +10,7 @@ class MovementEpidemic:
         self.movement_sampler = sampler(od_matrix, population_sizes)
         self.od_matrix = od_matrix
         self.number_of_patches = od_matrix.shape[0]
+        self.infected_commuters = np.zeros(shape=(t_max, self.number_of_patches, self.number_of_patches), dtype=float)
         self.t_max = t_max
         self.beta = beta
         self.psi = psi
@@ -87,7 +88,9 @@ class MovementEpidemic:
             movement = self.movement_sampler.sample(k)
             external_foi[k, :] = np.dot(movement, infection_state)
 
+        self.infected_commuters[t, ...] = external_foi
         exerted_foi = external_foi.sum(axis=0) - external_foi.diagonal()
+
         return (susceptibles, infecteds), (s_indices, i_indices), exerted_foi
 
     def step(self, t):
@@ -98,11 +101,15 @@ class MovementEpidemic:
             return False
         state = self.get_current_state(t)
         (susceptibles, infecteds), (s_indices, i_indices), exerted_foi = state
+        if t < 0.1 * self.t_max:
+            if infecteds.sum() == 0:
+                return False
         foi = self.foi_fn(t, state)
         probabilities = 1 - np.exp(-foi)
         infection_deltas = rng.binomial(susceptibles, probabilities)
         recovery_deltas = rng.binomial(infecteds, 1 - np.exp(-self.gamma))
         self.update_states(infection_deltas, recovery_deltas, s_indices, i_indices, t)
+        return True
 
     def aggregate_states(self):
         """
@@ -118,15 +125,23 @@ class MovementEpidemic:
                 s[t, patch] = self.s[patch][t, :].sum()
                 i[t, patch] = self.i[patch][t, :].sum()
                 r[t, patch] = self.r[patch][t, :].sum()
-        return s, i, r
+
+        return s, i, r, self.infected_commuters
 
     def simulate(self):
         """
         Populate time states.
         :return:
         """
-        for t in range(self.t_max - 1):
+        t = 0
+        while t < self.t_max - 1:
             print(f"Currently at step {t}", end='\r')
-            self.step(t)
+            step = self.step(t)
+            # if extinction happens, restart simulation so we can automate over epidemics
+            if step:
+                t += 1
+            else:
+                t = 0
+
         print("Simulation finished, aggregating states.")
         return self.aggregate_states()
