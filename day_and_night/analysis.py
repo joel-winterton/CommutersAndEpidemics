@@ -17,6 +17,17 @@ def filter_population(s, i):
     return commuter_s, commuter_i, home_s, home_i
 
 
+def filter_flat_pop(s, i):
+    """"
+    Remove non-commuters from simulation data and aggregate to patch level.
+    """
+    home_i = np.diagonal(i, axis1=1, axis2=2)
+    home_s = np.diagonal(s, axis1=1, axis2=2)
+    commuter_s = s.sum(axis=2) - home_s
+    commuter_i = i.sum(axis=2) - home_i
+    return commuter_s, commuter_i, home_s, home_i
+
+
 def simulate_batch(pop_sizes, od_matrix, realisations=10, extinctions=False, beta=2.5, psi=0.8, gamma=0.4,
                    perfect=False):
     """
@@ -31,8 +42,10 @@ def simulate_batch(pop_sizes, od_matrix, realisations=10, extinctions=False, bet
                np.zeros(shape=(realisations, t_steps, n, n)))
 
     for k in range(realisations):
-        sim = simulate(beta=beta, psi=psi, gamma=gamma, pop_sizes=pop_sizes, od_matrix=od_matrix, perfect=perfect)
+        sim = simulate(beta=beta, psi=psi, gamma=gamma, population_sizes=pop_sizes, flow_matrix=od_matrix,
+                       perfect=perfect)
         while sim[1].sum(axis=(0, 1, 2)) <= 100 and not extinctions:
-            sim = simulate(beta=beta, psi=psi, gamma=gamma, pop_sizes=pop_sizes, od_matrix=od_matrix, perfect=perfect)
+            sim = simulate(beta=beta, psi=psi, gamma=gamma, population_sizes=pop_sizes, flow_matrix=od_matrix,
+                           perfect=perfect)
         s[k, ...], i[k, ...], r[k, ...] = sim[0], sim[1], sim[2]
     return s, i, r

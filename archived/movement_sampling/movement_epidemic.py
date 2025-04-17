@@ -1,4 +1,4 @@
-from movement_sampling.movement_samplers import Sampler
+from archived.movement_sampling.movement_samplers import Sampler
 import numpy as np
 
 rng = np.random.default_rng(seed=100)

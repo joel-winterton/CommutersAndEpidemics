@@ -1,0 +1,3 @@
+# Movement sampling
+This was the original plan to explore perfect vs random commuters, as it contained both models as special cases. The idea was then to use other distributions as less special-cases. After running both perfect and random sampling, parameter estimation was the same, and I found the paper by Keeling et al on random vs routine movement, which means going down the "choose a different sampling distribution" route was not it.
+This was replaced by standard FOI meta-population models for speed, and then extended into bidirectional movement.

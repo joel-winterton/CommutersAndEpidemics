@@ -2,8 +2,6 @@ import numpy as np
 from copy import deepcopy
 import scipy.optimize as optimize
 import matplotlib.pyplot as plt
-from scipy.linalg import eigh
-
 """
 Code for basic epidemic using standard meta-population SIR model and likelihood inference.
 """

@@ -107,21 +107,21 @@ def make_state(pop_sizes, od_matrix, seed, seed_amount, time_steps):
     return x, y, z
 
 
-def simulate(beta, gamma, pop_sizes, od_matrix, psi=1, delta=1 / 12, t_max=120, seed=0, seed_amount=1, tau_0=9 / 24,
+def simulate(beta, gamma, population_sizes, flow_matrix, psi=1, t_delta=1 / 12, t_max=120, seed=0, seed_amount=1, tau_0=9 / 24,
              tau_1=17 / 24, model='random'):
-    time_steps = int(t_max / delta)
-    x, y, z = make_state(pop_sizes, od_matrix, seed, seed_amount, time_steps)
+    time_steps = int(t_max / t_delta)
+    x, y, z = make_state(population_sizes, flow_matrix, seed, seed_amount, time_steps)
     fois = {'random': make_random_foi,
             'perfect': make_perfect_foi,
             'random_oneway': make_one_way_random_foi,
             'perfect_oneway': make_one_way_perfect_foi, }
-    foi_fn = fois[model](beta, psi, od_matrix, pop_sizes, tau_0, tau_1, delta)
+    foi_fn = fois[model](beta, psi, flow_matrix, population_sizes, tau_0, tau_1, t_delta)
     rng = np.random.default_rng()
     for time_step in range(time_steps - 1):
         foi = foi_fn(time_step, (x[time_step, ...], y[time_step, ...], z[time_step, ...]))
-        delta_infection = rng.binomial(x[time_step, ...], 1 - np.exp(-delta * foi))
+        delta_infection = rng.binomial(x[time_step, ...], 1 - np.exp(-t_delta * foi))
         # print(delta_infection)
-        delta_recovery = rng.binomial(y[time_step, ...], 1 - np.exp(- delta * gamma))
+        delta_recovery = rng.binomial(y[time_step, ...], 1 - np.exp(- t_delta * gamma))
         x[time_step + 1, ...] = x[time_step] - delta_infection
         y[time_step + 1, ...] = y[time_step] + delta_infection - delta_recovery
         z[time_step + 1, ...] = z[time_step] + delta_recovery
