@@ -83,7 +83,10 @@ class Lattice:
         self.c = width
         self.grid = np.zeros((self.r, self.c))
         print("Assigning populus")
-        self.population = np.random.normal(loc=population_avg, scale=10, size=self.grid.shape).astype(int)
+        self.population = np.random.normal(loc=population_avg, scale=2, size=self.grid.shape).astype(int)
+        if np.sum(self.population.size > 0) < 0.5 * self.r * self.c:
+            print("More than 50% of sites unpopulated!")
+
         print("Calculating distance matrix")
         self.distance_matrix = self.calculate_distance_matrix()
         print("Calculating exploration probabilities")

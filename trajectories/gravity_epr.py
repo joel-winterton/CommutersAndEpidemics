@@ -5,14 +5,14 @@ This is an EPR model but with timing of next jump decided by where we go (so we 
 from typing import cast
 import numpy as np
 
-from lattice_model import Lattice, Coordinate
+from lattice_model import Lattice, Coordinate, Cube
 from trajectories.lattice_model import Offset
 
 
 class Individual:
     lattice: Lattice
 
-    def __init__(self, lattice: Lattice, seed: Coordinate, rho=0.3, gamma=0.21, exp_time=0.25, tau_h=9 / 24,
+    def __init__(self, lattice: Lattice, seed: Coordinate, rho=0.3, gamma=0.21, exp_time=1 / 24, tau_h=9 / 24,
                  tau_w=8 / 24, steps=100):
         """
         lattice: Lattice to work on.
@@ -88,3 +88,36 @@ class Individual:
                 next_coord = np.random.choice(coords, size=1, p=probabilities).flatten()[0]
                 self.visit(next_coord)
         return self.space_trajectory, self.time_trajectory
+
+
+class Movement:
+    """
+    Wraps individual movement class, and does it on bulk.
+    """
+
+    def __init__(self, lattice_width=25, population_avg=100):
+        self.lattice = Lattice(width=lattice_width, population_avg=population_avg)
+
+    def simulate(self, steps=50):
+        """
+        Simulate trajectories, starting trajectories on generated lattice census.
+        """
+        trajectories = []
+        for r in range(self.lattice.r):
+            for c in range(self.lattice.c):
+                pop = self.lattice.population[r, c]
+                print(f"Simulating {pop} trajectories from {r},{c}")
+                seed = Coordinate(offset=Offset(r, c))
+                for i in range(pop):
+                    person = Individual(lattice=self.lattice, seed=seed, steps=steps)
+                    trajectories.append(person.simulate())
+        return np.array(trajectories)
+
+    def calculate_indicators(self, trajectories, delta, t_max):
+        """
+        Create array for each individual per time-step that gives their location.
+        """
+        steps = np.ceil(t_max / delta).astype(int)
+        for i in trajectories:
+            pass
+
