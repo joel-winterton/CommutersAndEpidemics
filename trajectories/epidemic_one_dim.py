@@ -3,8 +3,7 @@ Toy 1-dimensional epidemic, to start playing around with trajectories vs OD matr
 
 """
 import numpy as np
-from routines import simple_routine, alternative_routine
-from trajectories.lattice_model import Lattice
+from routines import simple_routine, alternative_routine, simple_two_routine
 
 
 class Epidemic_1D:
@@ -12,7 +11,7 @@ class Epidemic_1D:
     Wrapper for parameters to combine routine with simulation, for consistency.
     """
 
-    def __init__(self, routine_type, n=500, k=20, t_max=120, t_delta=1 / 24, beta=1.2, gamma=0.2):
+    def __init__(self, routine_type, n=500, k=20, t_max=120, t_delta=1 / 24, beta=1.2, gamma=0.2, extinction=False):
         """
         routine_type: 'simple', 'alternative' see routines.py for descriptions of these routines.
         n: Initial population size for each site (homogenous).
@@ -23,8 +22,10 @@ class Epidemic_1D:
         self.n, self.k, self.t_max, self.t_delta = n, k, t_max, t_delta
         self.beta, self.gamma = beta, gamma
         self.routine_type = routine_type
+        self.extinction = extinction
 
-        self.steps = np.floor(self.t_max / self.t_delta).astype(int)
+        self.time_steps = np.floor(self.t_max / self.t_delta).astype(int)
+        self.day_steps = int(1 / t_delta)
         self.params = self.get_routine_default_params()
 
     def get_routine(self):
@@ -36,15 +37,19 @@ class Epidemic_1D:
             return simple_routine(**self.params)
         elif self.routine_type == 'alternative':
             return alternative_routine(**self.params)
+        elif self.routine_type == 'simple_two':
+            return simple_two_routine(**self.params)
 
     def get_routine_default_params(self):
         """
         Store for default parameters for each routine.
         """
         if self.routine_type == 'simple':
-            return dict(k=self.k, n=self.n, p_c=0.2, boundaries=(16, 8), steps=self.steps)
+            return dict(k=self.k, n=self.n, p_c=0.2, boundaries=(16, 8), steps=self.day_steps)
         elif self.routine_type == 'alternative':
-            return dict(k=self.k, n=self.n, p_c=0.2, p_a=0.2, boundaries=(14, 8, 2), steps=self.steps)
+            return dict(k=self.k, n=self.n, p_c=0.2, p_a=0.2, boundaries=(14, 8, 2), steps=self.day_steps)
+        elif self.routine_type == 'simple_two':
+            return dict(k=self.k, n=self.n, p_c=0.2, boundaries=(16, 8), steps=self.day_steps, p_1=0.5, p_a=0)
 
     def set_routine_params(self, params):
         """
@@ -89,8 +94,8 @@ class Lattice_1D:
                                   np.zeros(shape=(self.time_steps, self.k, self.n)),
                                   np.zeros(shape=(self.time_steps, self.k, self.n)))
         # seed
-        self.s[0, 0, [0, 1, 2]] = 0
-        self.i[0, 0, [0, 1, 2]] = 1
+        self.s[0, 0, 0] = 0
+        self.i[0, 0, 0] = 1
 
     def simulate(self):
         """
@@ -105,6 +110,10 @@ class Lattice_1D:
             rng_vals_a = np.random.rand(*masks.shape)
             rng_vals_b = np.random.rand(*masks.shape)
             infecteds = np.logical_and(masks, self.i[time_step]).sum(axis=(1, 2))
+            if infecteds.sum() == 0 and time_step < 0.25 * self.time_steps:
+                print('Extinction event occurred, restarting')
+                return self.simulate()
+
             infection_probabilities = (1 - np.exp(-self.t_delta * self.beta * infecteds / self.n))[:, None, None]
             new_infection_mask = np.any(
                 masks & (rng_vals_a < infection_probabilities) & self.s[time_step][None, :, :].astype(
