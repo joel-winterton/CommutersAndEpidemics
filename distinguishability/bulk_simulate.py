@@ -39,7 +39,7 @@ def simulate(r0, incubation_period, t_max, sim='oneway', model='random', dataset
 incubation = 3
 time = 200
 t_delta = 1 / 12
-samples = 50
+samples = 100
 for R0 in [1.3, 1.8, 2.0, 2.5, 3.0, 4.0]:
     print(f'Simulating R0 = {R0}')
     S_o, I_o = simulate(r0=R0, incubation_period=incubation,
@@ -49,10 +49,10 @@ for R0 in [1.3, 1.8, 2.0, 2.5, 3.0, 4.0]:
     start = curr_time()
     print(f"Saving one-way perfect simulation, which has original shape of {S_o.shape}")
     np.save(
-        f'simulation_data/S_model=perfect_oneway, r0={R0}, incubation={incubation}, max_time={time}, time_period = {1 / t_delta}, samples={samples}, shape={S_o.shape}',
+        f'simulation_data/S_model=perfect_oneway,r0={R0},incubation={incubation},samples={samples}',
         S_o)
     np.save(
-        f'simulation_data/I_model=perfect_oneway, r0={R0}, incubation={incubation}, max_time={time}, time_period = {1 / t_delta}, samples={samples}, shape={S_o.shape}',
+        f'simulation_data/I_model=perfect_oneway,r0={R0},incubation={incubation},samples={samples}',
         I_o)
     S_t, I_t = simulate(r0=R0, incubation_period=incubation,
                         t_max=time, t_delta=t_delta,
@@ -61,10 +61,10 @@ for R0 in [1.3, 1.8, 2.0, 2.5, 3.0, 4.0]:
 
     print(f"Saving two-way perfect simulation, which has original shape of {S_t.shape}")
     np.save(
-        f'simulation_data/S_model=perfect_twoway, r0={R0}, incubation={incubation}, max_time={time}, time_period = {1 / t_delta}, samples={samples}, shape={S_o.shape}',
+        f'simulation_data/S_model=perfect_twoway,r0={R0},incubation={incubation},samples={samples}',
         S_t)
     np.save(
-        f'simulation_data/I_model=perfect_twoway, r0={R0}, incubation={incubation}, max_time={time}, time_period = {1 / t_delta}, samples={samples}, shape={S_o.shape}',
+        f'simulation_data/I_model=perfect_twoway,r0={R0},incubation={incubation},samples={samples}',
         I_t)
     end = curr_time()
     print(f"Process took {end - start:.2f} seconds")

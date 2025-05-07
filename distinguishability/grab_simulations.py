@@ -8,10 +8,11 @@ import numpy as np
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 available_r0s = [1.3, 1.8, 2.0, 2.5, 3.0, 4.0]
+index = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
 
 
 def grab_simulations(r0, model_code):
-    string = f'_model={model_code}, r0={r0}, incubation=3, max_time=200, time_period = 12.0, samples=50, shape=(50, 2400, 346).npy'
+    string = f'_model={model_code},r0={r0},incubation=3,samples=100.npy'
     directory = 'simulation_data/'
     if r0 not in available_r0s:
         raise ValueError('No simulation with that R0 available.')
@@ -31,8 +32,8 @@ class AvailableSims:
 
     def __next__(self):
         self.current_index += 1
-        if self.current_index < len(self.r0s) :
+        if self.current_index < len(self.r0s):
             one_way = grab_simulations(self.r0s[self.current_index], model_code='perfect_oneway')
             two_way = grab_simulations(self.r0s[self.current_index], model_code='perfect_twoway')
-            return one_way, two_way, self.r0s[self.current_index]
+            return one_way, two_way, self.r0s[self.current_index], index[self.current_index]
         raise StopIteration
