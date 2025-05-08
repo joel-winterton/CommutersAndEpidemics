@@ -7,8 +7,7 @@ import numpy as np
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-available_r0s = [1.3, 1.8, 2.0, 2.5, 3.0, 4.0]
-index = [(0, 0), (0, 1), (1, 0), (1, 1), (2, 0), (2, 1)]
+available_r0s = np.array([1.2, 1.3,1.35, 1.4, 1.6, 1.8, 2.0, 2.5, 3.0, 4.0])
 
 
 def grab_simulations(r0, model_code):
@@ -35,5 +34,5 @@ class AvailableSims:
         if self.current_index < len(self.r0s):
             one_way = grab_simulations(self.r0s[self.current_index], model_code='perfect_oneway')
             two_way = grab_simulations(self.r0s[self.current_index], model_code='perfect_twoway')
-            return one_way, two_way, self.r0s[self.current_index], index[self.current_index]
+            return one_way, two_way, self.r0s[self.current_index]
         raise StopIteration
